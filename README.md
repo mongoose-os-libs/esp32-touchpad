@@ -13,14 +13,14 @@ The JS API largely mirrors the [C API](https://github.com/espressif/esp-idf/blob
 load('api_esp32_touchpad.js');
 
 // Touch sensors are numbered from 0 to 9.
-// For convenience, TOUCHPAD.GPIO map translates from GPIO number to sensor number.
-let ts = TOUCHPAD.GPIO[15];
+// For convenience, TouchPad.GPIO map translates from GPIO number to sensor number.
+let ts = TouchPad.GPIO[15];
 
-TOUCHPAD.init();
-TOUCHPAD.setVoltage(TOUCHPAD.HVOLT_2V4, TOUCHPAD.LVOLT_0V8, TOUCHPAD.HVOLT_ATTEN_1V5);
-TOUCHPAD.config(ts, 0);
+TouchPad.init();
+TouchPad.setVoltage(TouchPad.HVOLT_2V4, TouchPad.LVOLT_0V8, TouchPad.HVOLT_ATTEN_1V5);
+TouchPad.config(ts, 0);
 Timer.set(1000 /* 1 sec */, true /* repeat */, function() {
-  let tv = TOUCHPAD.read(ts);
+  let tv = TouchPad.read(ts);
   print('Sensor', ts, 'value', tv);
 }, null);
 
@@ -32,23 +32,23 @@ Timer.set(1000 /* 1 sec */, true /* repeat */, function() {
 load('api_esp32_touchpad.js');
 
 // Touch sensors are numbered from 0 to 9.
-// For convenience, TOUCHPAD.GPIO map translates from GPIO number to sensor number.
-let ts = TOUCHPAD.GPIO[15];
+// For convenience, TouchPad.GPIO map translates from GPIO number to sensor number.
+let ts = TouchPad.GPIO[15];
 
-TOUCHPAD.init();
-TOUCHPAD.filterStart(10);
-TOUCHPAD.setMeasTime(0x1000, 0xffff);
-TOUCHPAD.setVoltage(TOUCHPAD.HVOLT_2V4, TOUCHPAD.LVOLT_0V8, TOUCHPAD.HVOLT_ATTEN_1V5);
-TOUCHPAD.config(ts, 0);
+TouchPad.init();
+TouchPad.filterStart(10);
+TouchPad.setMeasTime(0x1000, 0xffff);
+TouchPad.setVoltage(TouchPad.HVOLT_2V4, TouchPad.LVOLT_0V8, TouchPad.HVOLT_ATTEN_1V5);
+TouchPad.config(ts, 0);
 Sys.usleep(100000); // wait a bit for initial filtering.
-let noTouchVal = TOUCHPAD.readFiltered(ts);
+let noTouchVal = TouchPad.readFiltered(ts);
 let touchThresh = noTouchVal * 2 / 3;
 print('Sensor', ts, 'noTouchVal', noTouchVal, 'touchThresh', touchThresh);
-TOUCHPAD.setThresh(ts, touchThresh);
-TOUCHPAD.isrRegister(function(st) {
+TouchPad.setThresh(ts, touchThresh);
+TouchPad.isrRegister(function(st) {
   // st is a bitmap with 1 bit per sensor.
-  let val = TOUCHPAD.readFiltered(ts);
+  let val = TouchPad.readFiltered(ts);
   print('Status:', st, 'Value:', val);
 }, null);
-TOUCHPAD.intrEnable();
+TouchPad.intrEnable();
 ```
