@@ -19,7 +19,7 @@ let ts = TouchPad.GPIO[15];
 TouchPad.init();
 TouchPad.setVoltage(TouchPad.HVOLT_2V4, TouchPad.LVOLT_0V8, TouchPad.HVOLT_ATTEN_1V5);
 TouchPad.config(ts, 0);
-Timer.set(1000 /* 1 sec */, true /* repeat */, function() {
+Timer.set(1000 /* 1 sec */, Timer.REPEAT, function() {
   let tv = TouchPad.read(ts);
   print('Sensor', ts, 'value', tv);
 }, null);
