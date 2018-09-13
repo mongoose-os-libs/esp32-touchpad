@@ -12,6 +12,7 @@ tags:
   - hw
   - js
   - touch
+  - docs:drivers:ESP32 touch sensor
 
 manifest_version: 2017-09-29
 
